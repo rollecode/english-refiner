@@ -124,13 +124,15 @@ call_api() {
     return 1
   fi
 
-  local used
+  local used cost cost_text=""
   if [[ "$PROVIDER" == "openrouter" ]]; then
     used="$(echo "$response" | jq -r '.model // empty')"
+    cost="$(echo "$response" | jq -r '.usage.cost // empty')"
   else
     used="anthropic/$(echo "$response" | jq -r '.model // empty')"
   fi
-  LC_ALL=C printf 'Refined with %s in %.1f seconds.\n' "$used" "$elapsed"
+  [[ -n "$cost" ]] && cost_text="$(LC_ALL=C printf ' Cost $%.4f.' "$cost")"
+  LC_ALL=C printf 'Refined with %s in %.1f seconds.%s\n' "$used" "$elapsed" "$cost_text"
 
   if [[ "$PROVIDER" == "openrouter" ]]; then
     echo "$response" | jq -r '.choices[0].message.content // "Error: no response"'
@@ -163,7 +165,7 @@ refine() {
   echo ""
 
   printf "%s" "$RESULT" | pbcopy
-  gum style --foreground 245 "$meta"
+  gum style --foreground 250 "$meta"
   gum style --foreground 245 "Copied to clipboard."
 }
 

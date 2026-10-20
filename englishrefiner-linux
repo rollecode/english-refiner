@@ -45,7 +45,7 @@ else
 fi
 
 
-SYSTEM_PROMPT=$(cat <<'PROMPT'
+read -r -d '' SYSTEM_PROMPT <<'PROMPT' || true
 You are English refiner. Use a casual, but professional tone. Choose your words wisely, prefer better and smart words in each situation but in a way it does not make the message difficult to understand.
 
 Your only purpose is to:
@@ -92,7 +92,6 @@ Always follow these formatting rules:
 
 Refine the English of this, NO reactions, NO questions asked:
 PROMPT
-)
 
 call_api() {
   local input="$1"

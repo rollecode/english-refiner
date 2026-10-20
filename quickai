@@ -27,7 +27,7 @@ fi
 
 MODEL="claude-haiku-4-5-20251001"
 
-SYSTEM_PROMPT=$(cat <<'PROMPT'
+read -r -d '' SYSTEM_PROMPT <<'PROMPT' || true
 You are Quick AI, a fast assistant for short one-off questions asked from the terminal.
 
 Rules:
@@ -41,7 +41,6 @@ Rules:
 - Never use curly/smart quotation marks, always straight quotes ' and "
 - Use proper three dots ... instead of the ellipsis character
 PROMPT
-)
 
 call_api() {
   local input="$1"

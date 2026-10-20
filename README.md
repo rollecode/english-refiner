@@ -20,8 +20,7 @@ mkdir -p ~/.config/englishrefiner
 echo -n 'your-anthropic-api-key-here' > ~/.config/englishrefiner/key
 chmod 600 ~/.config/englishrefiner/key
 
-sudo cp englishrefiner /usr/local/bin/englishrefiner
-sudo chmod +x /usr/local/bin/englishrefiner
+sudo ln -s "$PWD/englishrefiner" /usr/local/bin/englishrefiner
 ```
 
 ## Installation on Linux

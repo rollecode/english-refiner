@@ -87,7 +87,7 @@ call_api() {
 
   local response
   if [[ "$PROVIDER" == "openrouter" ]]; then
-    response="$(curl -s https://openrouter.ai/api/v1/chat/completions \
+    response="$(curl -s -w '\n%{time_total}' https://openrouter.ai/api/v1/chat/completions \
       -H "Authorization: Bearer $API_KEY" \
       -H "Content-Type: application/json" \
       -d "{
@@ -100,7 +100,7 @@ call_api() {
         ]
       }")"
   else
-    response="$(curl -s https://api.anthropic.com/v1/messages \
+    response="$(curl -s -w '\n%{time_total}' https://api.anthropic.com/v1/messages \
       -H "x-api-key: $API_KEY" \
       -H "anthropic-version: 2023-06-01" \
       -H "Content-Type: application/json" \
@@ -114,12 +114,23 @@ call_api() {
       }")"
   fi
 
+  local elapsed="${response##*$'\n'}"
+  response="${response%$'\n'*}"
+
   local error
   error="$(echo "$response" | jq -r '.error.message // empty')"
   if [[ -n "$error" ]]; then
     echo "ERROR:$error"
     return 1
   fi
+
+  local used
+  if [[ "$PROVIDER" == "openrouter" ]]; then
+    used="$(echo "$response" | jq -r '.model // empty')"
+  else
+    used="anthropic/$(echo "$response" | jq -r '.model // empty')"
+  fi
+  LC_ALL=C printf 'Refined with %s in %.1f seconds.\n' "$used" "$elapsed"
 
   if [[ "$PROVIDER" == "openrouter" ]]; then
     echo "$response" | jq -r '.choices[0].message.content // "Error: no response"'
@@ -144,11 +155,15 @@ refine() {
     return 1
   fi
 
+  local meta="${RESULT%%$'\n'*}"
+  RESULT="${RESULT#*$'\n'}"
+
   echo ""
   echo "$RESULT" | gum style --border rounded --padding "1 2" --border-foreground 39 --width 70
   echo ""
 
   printf "%s" "$RESULT" | pbcopy
+  gum style --foreground 245 "$meta"
   gum style --foreground 245 "Copied to clipboard."
 }
 

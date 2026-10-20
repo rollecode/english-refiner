@@ -3,6 +3,7 @@
 * Switch OpenRouter default to openai/gpt-5.6-terra
 * Add a fallback model for data policy blocks
 * Fix the prompt heredoc breaking on macOS bash 3.2
+* Show the model and time after refining
 
 ### 1.5.0: 2026-08-30
 

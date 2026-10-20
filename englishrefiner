@@ -132,7 +132,7 @@ call_api() {
     used="anthropic/$(echo "$response" | jq -r '.model // empty')"
   fi
   [[ -n "$cost" ]] && cost_text="$(env LC_ALL=C printf ' Cost $%.4f.' "$cost")"
-  env LC_ALL=C printf 'Refined with %s in %.1f seconds.%s\n' "$used" "$elapsed" "$cost_text"
+  env LC_ALL=C printf 'Refined with %s in %.3f seconds.%s\n' "$used" "$elapsed" "$cost_text"
 
   if [[ "$PROVIDER" == "openrouter" ]]; then
     echo "$response" | jq -r '.choices[0].message.content // "Error: no response"'

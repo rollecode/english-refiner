@@ -1,3 +1,8 @@
+### 1.5.1: 2026-10-20
+
+* Switch OpenRouter default to openai/gpt-5.6-terra
+* Add a fallback model for data policy blocks
+
 ### 1.5.0: 2026-08-30
 
 * Stop expanding typos and unknown words into invented ones

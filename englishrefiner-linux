@@ -37,7 +37,9 @@ esac
 # Fastest model that still refines correctly, per provider. See the benchmark
 # table in README for the OpenRouter candidates that were measured.
 if [[ "$PROVIDER" == "openrouter" ]]; then
-  MODEL="${ENGLISHREFINER_MODEL:-google/gemini-3.7-flash}"
+  MODEL="${ENGLISHREFINER_MODEL:-openai/gpt-5.6-terra}"
+  # Second choice when the account data policy leaves the first with no endpoint
+  FALLBACK="anthropic/claude-sonnet-5.5"
 else
   MODEL="${ENGLISHREFINER_MODEL:-claude-haiku-4-5-20251001}"
 fi
@@ -106,6 +108,7 @@ call_api() {
       -H "Content-Type: application/json" \
       -d "{
         \"model\": \"$MODEL\",
+        \"models\": [\"$MODEL\", \"$FALLBACK\"],
         \"max_tokens\": 1024,
         \"messages\": [
           {\"role\": \"system\", \"content\": $escaped_system},

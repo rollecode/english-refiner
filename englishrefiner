@@ -148,8 +148,17 @@ refine() {
     return 1
   fi
 
-  gum style --foreground 245 "Refining..."
+  # Live timer on stderr, only when it is a terminal so pipes and logs stay clean
+  local timer=""
+  if [[ -t 2 ]]; then
+    perl -MTime::HiRes=time,sleep -e '$s = time; while (1) { printf STDERR "\r\e[38;5;245mRefining %.3fs...\e[0m", time - $s; sleep 0.05 }' &
+    timer=$!
+  fi
   RESULT="$(call_api "$input")"
+  if [[ -n "$timer" ]]; then
+    kill "$timer"; wait "$timer" 2>/dev/null
+    printf '\r\033[K' >&2
+  fi
 
   if [[ "$RESULT" == ERROR:* ]]; then
     echo ""

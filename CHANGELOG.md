@@ -1,3 +1,8 @@
+### 1.5.4: 2026-10-21
+
+* Switch OpenRouter default to openai/gpt-6.1-sol
+* Switch the Anthropic default to claude-opus-5-5
+
 ### 1.5.3: 2026-10-21
 
 * Rewrite clumsy sentences, not just grammar

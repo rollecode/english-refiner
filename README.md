@@ -87,7 +87,7 @@ echo 'your question' | quickai
 
 ## Model
 
-The provider is detected from the key prefix. An `sk-or-` key uses OpenRouter with `openai/gpt-5.6-terra`, falling back to `anthropic/claude-sonnet-5.5`, anything else uses the Anthropic API with `claude-haiku-4-5-20251001`. Set `ENGLISHREFINER_MODEL` or change the `MODEL` variable in the script to swap models.
+The provider is detected from the key prefix. An `sk-or-` key uses OpenRouter with `anthropic/claude-sonnet-5.5`, falling back to `openai/gpt-5.6-terra`, anything else uses the Anthropic API with `claude-haiku-4-5-20251001`. Set `ENGLISHREFINER_MODEL` or change the `MODEL` variable in the script to swap models.
 
 ## Model benchmarks
 

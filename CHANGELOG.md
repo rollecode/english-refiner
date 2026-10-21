@@ -1,3 +1,8 @@
+### 1.5.3: 2026-10-21
+
+* Rewrite clumsy sentences, not just grammar
+* Switch OpenRouter default to anthropic/claude-sonnet-5.5
+
 ### 1.5.2: 2026-10-20
 
 * Add cost, three decimals and a lighter status line

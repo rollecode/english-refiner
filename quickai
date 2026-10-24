@@ -70,7 +70,7 @@ call_api() {
     return 1
   fi
 
-  echo "$response" | jq -r '.content[0].text // "Error: no response"'
+  echo "$response" | jq -r '[.content[]? | select(.type == "text") | .text] | join("") | select(. != "") // "Error: no response"'
 }
 
 ask() {

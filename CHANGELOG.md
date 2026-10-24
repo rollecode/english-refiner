@@ -1,3 +1,7 @@
+### 1.5.5: 2026-10-24
+
+* Fix empty Anthropic replies with thinking blocks
+
 ### 1.5.4: 2026-10-21
 
 * Switch OpenRouter default to openai/gpt-6.1-sol
